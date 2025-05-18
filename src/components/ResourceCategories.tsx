@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useResourceContext } from "@/context/ResourceContext";
@@ -7,9 +6,10 @@ import { ResourceCard } from "./ResourceCard";
 import { Resource } from "@/types";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const ResourceCategories = () => {
-  const { resources } = useResourceContext();
+  const { resources, loading, error } = useResourceContext();
   const [viewType, setViewType] = useState<"table" | "cards">("cards");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -31,6 +31,44 @@ export const ResourceCategories = () => {
   
   // Historical resources are all those that are not pending
   const historicalResources = filterBySearch(resources.filter(resource => resource.status !== 'pending'));
+
+  // Loading state UI
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+          <Skeleton className="h-10 w-64" />
+          <div className="flex items-center gap-4">
+            <Skeleton className="h-10 w-64" />
+            <Skeleton className="h-10 w-48" />
+          </div>
+        </div>
+        
+        <div className="space-y-4">
+          <Skeleton className="h-10 w-full" />
+          {viewType === "cards" ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Skeleton className="h-72 w-full" />
+              <Skeleton className="h-72 w-full" />
+            </div>
+          ) : (
+            <Skeleton className="h-96 w-full" />
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Error state UI
+  if (error) {
+    return (
+      <div className="rounded-lg border border-red-200 bg-red-50 p-8 text-center">
+        <h3 className="text-lg font-medium text-red-800 mb-2">Erreur de chargement</h3>
+        <p className="text-red-600">{error}</p>
+        <p className="text-red-600 mt-2">Veuillez rafraîchir la page ou contacter le support.</p>
+      </div>
+    );
+  }
 
   const renderResources = (filteredResources: Resource[]) => {
     if (filteredResources.length === 0) {
