@@ -1,21 +1,11 @@
 
-import { ResourceProvider, useResourceContext } from "@/context/ResourceContext";
+import { ResourceProvider } from "@/context/ResourceContext";
 import { Header } from "@/components/Header";
 import { AdminPanel } from "@/components/AdminPanel";
 import { ResourceCategories } from "@/components/ResourceCategories";
-import { LoginForm } from "@/components/LoginForm";
+import { useResourceContext } from "@/context/ResourceContext";
 
 const ResourcesOverview = () => {
-  const { currentUser } = useResourceContext();
-
-  if (!currentUser) {
-    return (
-      <div className="max-w-lg mx-auto py-12">
-        <LoginForm />
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6">
       <ResourceCategories />
