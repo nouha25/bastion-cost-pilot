@@ -9,7 +9,7 @@ interface ResourceContextType {
   currentUser: User | null;
   setResources: React.Dispatch<React.SetStateAction<Resource[]>>;
   approveForDeletion: (resourceId: string) => void;
-  rejectForDeletion: (resourceId: string) => void;
+  rejectForDeletion: (resourceId: string, ritmNumber: string) => void;
   adminApproveDelete: (resourceId: string) => void;
   adminRejectDelete: (resourceId: string) => void;
   loginAsUser: (userId: string) => void;
@@ -38,17 +38,17 @@ export const ResourceProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Utilisateur rejette la suppression
-  const rejectForDeletion = (resourceId: string) => {
+  const rejectForDeletion = (resourceId: string, ritmNumber: string) => {
     setResources(prev =>
       prev.map(resource =>
         resource.id === resourceId
-          ? { ...resource, status: 'rejected_for_deletion' }
+          ? { ...resource, status: 'rejected_for_deletion', ritmNumber }
           : resource
       )
     );
     toast({
       title: "Suppression rejetée",
-      description: "Vous avez choisi de conserver cette ressource.",
+      description: `Vous avez choisi de conserver cette ressource avec le numéro RITM: ${ritmNumber}`,
     });
   };
 

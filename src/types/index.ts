@@ -11,6 +11,7 @@ export interface Resource {
   status: ResourceStatus;
   subscriptionId: string;
   resourceGroup: string;
+  ritmNumber?: string; // Ajout du numéro RITM
 }
 
 export interface User {
