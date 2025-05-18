@@ -6,9 +6,14 @@ import { ThumbsDown, ThumbsUp, Check, X } from "lucide-react";
 import { StatusBadge } from "./StatusBadge";
 import { useState } from "react";
 import { RitmDialog } from "./RitmDialog";
+import { Resource } from "@/types";
 
-export const ResourcesTable = () => {
-  const { resources, approveForDeletion, rejectForDeletion, adminApproveDelete, adminRejectDelete, currentUser } = useResourceContext();
+interface ResourcesTableProps {
+  resources: Resource[];
+}
+
+export const ResourcesTable = ({ resources }: ResourcesTableProps) => {
+  const { approveForDeletion, rejectForDeletion, adminApproveDelete, adminRejectDelete, currentUser } = useResourceContext();
   const [selectedResourceId, setSelectedResourceId] = useState<string | null>(null);
   const [isRitmDialogOpen, setIsRitmDialogOpen] = useState(false);
   
@@ -52,8 +57,7 @@ export const ResourcesTable = () => {
               <TableHead>Dernière utilisation</TableHead>
               <TableHead className="text-right">Coût mensuel</TableHead>
               <TableHead>Statut</TableHead>
-              {/* Afficher une colonne pour le numéro RITM */}
-              <TableHead>Numéro RITM</TableHead> 
+              <TableHead>Numéro RITM</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
